@@ -1,0 +1,57 @@
+{
+  "id":"org.apache.sling:org.apache.sling.graphql.samples.website:slingosgifeature:sling12:0.0.1-SNAPSHOT",
+  "title":"Apache Sling GraphQL Sample Website",
+  "description":"Demo website for the Sling GraphQL core",
+  "vendor":"The Apache Software Foundation",
+  "license":"Apache License, Version 2.0",
+  "variables":{},
+  "prototype" : {
+    "id" : "org.apache.sling:org.apache.sling.starter:slingosgifeature:oak_tar:12"
+  },
+  "bundles":[
+    {
+      // keep the version number in sync between pom.xml and feature-graphql-example-website.json
+      "id" : "org.apache.sling:org.apache.sling.graphql.core:0.0.12",
+      "start-order":"20"
+    },
+    "org.apache.sling:org.apache.sling.graphql.samples.website:0.0.1-SNAPSHOT",
+    "org.apache.johnzon:johnzon-mapper:jar:1.2.8",
+    "com.cedarsoftware:json-io:jar:4.12.0",
+    "com.graphql-java:graphql-java:jar:15.0",
+    "org.antlr:antlr4-runtime:jar:4.7.2",
+    "com.graphql-java:java-dataloader:jar:2.2.3",
+    "org.reactivestreams:reactive-streams:jar:1.0.2",
+    "org.apache.sling:org.apache.sling.servlet-helpers:jar:1.4.2",
+    "com.github.jknack:handlebars:4.2.0"
+  ],
+  "configurations":{
+    "org.apache.sling.graphql.core.GraphQLServlet~default" : {
+      "sling.servlet.resourceTypes" : "samples/servlet",
+      "sling.servlet.extensions": "json",
+      "sling.servlet.methods": [ "GET", "POST" ]
+    },
+    "org.apache.sling.servlets.get.DefaultGetServlet" : {
+      "aliases" : [ "json:rawjson" ]
+    },
+    "org.apache.sling.commons.log.LogManager.factory.config~debug.log" : {
+      "org.apache.sling.commons.log.file": "logs/debug.log",
+      "org.apache.sling.commons.log.level": "INFO",
+      "org.apache.sling.commons.log.names":
+        [
+          "org.apache.sling.engine",
+          "org.apache.sling.servlet",
+          "org.apache.sling.servlets",
+          "org.apache.sling.servlethelpers.internalrequests",
+          "org.apache.sling.graphql",
+          "org.apache.sling.scripting"
+        ],
+      "org.apache.sling.commons.log.pattern": "%-5level [%-50logger{50}] %message ## %mdc{sling.InternalRequest} %n"
+    }
+  },
+  "repoinit:TEXT|true":[
+    "create path /graphql",
+    "set ACL on /graphql",
+    "allow jcr:read for everyone",
+    "end"
+  ]
+}
